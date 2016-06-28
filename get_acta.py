@@ -26,8 +26,7 @@ def load_tags(tags_file,tags):
         for line in f:
             both_tags = line.split(':')
             tags[both_tags[0].replace(" ", "")]=both_tags[1]
-#    print (tags.keys())
-
+    #print (tags.keys())
 
 
 #Obtiene la ruta completa a cada elemento    
@@ -56,21 +55,15 @@ load_tags(tags_file,tags)
 #Bucle principal que recorre todo el XML imprimiendo la ruta y el contenido de cada elemento 
 for element in root.iter():
     if element.text and not element.text.isspace():
-        print("%s - %s" % (get_parents(element), element.text))
-#Estoy obligado a filtrar MD_Metadata/characterSet/MD_CharacterSetCode/ porque contiene un texto (la cadena utf8) que es un código del lenguaje 
-        if get_parents(element) != "MD_Metadata/characterSet/MD_CharacterSetCode/":
-            (key, val) = (get_parents(element), element.text)
-            data[str(key)] = val
-
-print ("Inicio del print de data")
-print (data)
-print ("Fin del print de data")
+#        print("%s - %s" % (get_parents(element), element.text))
+        (key, val) = (get_parents(element), element.text)
+        data[str(key)] = val
 
 
-#with open('output.csv', 'w') as csvfile:
-    #print (data.keys()) 
-#    fieldnames = [next(iter(data.keys()))]
-#    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, extrasaction='raise',delimiter=';')
-#    writer.writeheader()
-#    writer.writerow(data)
+with open('output2.csv','w') as f:
+    w = csv.DictWriter(f, data.keys(),'raise')
+    w.writeheader()
+    w.writerow(data)
+
+
 
