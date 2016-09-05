@@ -6,9 +6,9 @@ from lxml import etree
 import csv
 
 #Archivo XML que cargar
-file = "../datos/ftppriv.cnig.es/17/xml/spaignActa_1923_05918020150591802015.xml"
+#file = "../datos/ftppriv.cnig.es/17/xml/spaignActa_1923_05918020150591802015.xml"
 #file = "../datos/ftppriv.cnig.es/01/xml/spaignActa_1927_05675720150567572015.xml"
-#file = "./18/xml/spaignActa_1990_1042142015071042142015.xml"
+file = "../datos/ftppriv.cnig.es/18/xml/spaignActa_1990_1042142015071042142015.xml"
 #file = sys.argv[1]
 root = etree.parse(file)
 
@@ -77,10 +77,23 @@ for element in root.iter():
             data[str(update_key(data,key))] = val
         else: data[str(key)] = val
 
+#Nombre del archivo de salida
 outputname = file + ".csv"
 
-with open("prueba1.csv",'w') as f:
-    w = csv.DictWriter(f, data.keys(),'raise')
+#Orden de las tags
+#TODO: Establecer el orden final de las tags. Se hará tal y como indican los metadatos Metadatos_ActasSerie2015.xml
+tags_order = ["MD_Metadata/fileIdentifier/CharacterString/", "MD_Metadata/identificationInfo/MD_DataIdentification/language/CharacterString/", "TODO" ]
+
+
+with open("prueba2.csv",'a') as f:
+#    w = csv.DictWriter(f, data.keys(),'raise')
+#    w = csv.DictWriter(f, tags_order, extrasaction='ignore')
+#    listado = list(data.keys())
+    listado = []
+    for key in data.keys():
+        listado.append(key)
+    listado.sort()
+    w = csv.DictWriter(f, listado, extrasaction='ignore')
     w.writeheader()
     w.writerow(data)
 
