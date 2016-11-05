@@ -4,4 +4,5 @@
         while IFS= read -r file
         do
                 ./get_acta.py $file
-        done < "./acta_list.txt"
+		echo "Reading " $file
+        done < "./acta_list01.txt"
